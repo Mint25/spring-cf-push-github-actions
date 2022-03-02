@@ -2,14 +2,9 @@ name: Deploy to Cloud Foundry
 
 on: [push]
     
-jobs:
-  build:
-    runs-on: ubuntu-18.04
-    # Build your app here
-
+jobs: 
   deploy:
     runs-on: ubuntu-18.04
-    needs: build
     
     steps:
     - uses: citizen-of-planet-earth/cf-cli-action@master
