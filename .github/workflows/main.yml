@@ -9,9 +9,8 @@ jobs:
     steps:
     - uses: citizen-of-planet-earth/cf-cli-action@master
       with:
+        cf_login: cf8 login -a https://api.cloud.pcftest.com -u ${{ secrets.CF_USER }} -p ${{ secrets.CF_PASSWORD }}
         cf_api: https://api.cloud.pcftest.com
-        cf_username: ${{ secrets.CF_USER }}
-        cf_password: ${{ secrets.CF_PASSWORD }}
         cf_org: client-src-ampm
         cf_space: dev-infra
-        command: cf push -f ./manifest.yml
+        command: cf8 push -f ./manifest.yml
