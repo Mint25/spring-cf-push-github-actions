@@ -7,10 +7,46 @@ jobs:
     runs-on: ubuntu-18.04
     
     steps:
-    - uses: citizen-of-planet-earth/cf-cli-action@master
-      with:
-        cf_login: cf8 login -a https://api.cloud.pcftest.com -u ${{ secrets.CF_USER }} -p ${{ secrets.CF_PASSWORD }}
-        cf_api: https://api.cloud.pcftest.com
-        cf_org: client-src-ampm
-        cf_space: dev-infra
-        command: cf8 push -f ./manifest.yml
+      - name:  Checkout branch from GitHub 
+        uses: actions/checkout@v2
+        
+      
+      - name: Set up JDK
+        uses: actions/setup-java@v2
+        with:
+          java-version: '8'
+          distribution: 'adopt'
+    
+      - name: Change wrapper permissions
+        run: chmod +x ./gradlew
+      
+      - name:  Gradle wrapper version validation
+        uses: gradle/wrapper-validation-action@v1
+      
+      - name: Build with Gradle
+        uses: gradle/gradle-build-action@v2.1.3
+        with:
+          gradle-version: 2.13
+          arguments: build    
+      - name: list the build files
+        run: |
+          ls '${{ github.workspace }}'/build/libs
+          
+   
+      - name: Upload a Build Artifact
+        uses: actions/upload-artifact@v2.3.1
+        with:
+           name : Eureka-server
+           path : ${{ github.workspace }}/build/libs
+     
+      - name:  Deploy to CF 
+        run: |
+         wget -q -O - https://packages.cloudfoundry.org/debian/cli.cloudfoundry.org.key | sudo apt-key add -
+         echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
+         sudo apt-get update
+         sudo apt-get install cf8-cli
+         cf login -a https://api.cloud.pcftest.com -u ${{ secrets.CF_LOGIN }} -p ${{ secrets.CF_PASSWORD }} -o ${{ secrets.CF_ORG }} -s ${{ secrets.CF_SPACE }}
+       
+ 
+         cf push -f manifest.yml
+
