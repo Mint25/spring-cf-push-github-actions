@@ -1,6 +1,6 @@
 name: Deploy to Cloud Foundry
 
-on: [push]
+on: workflow_dispatch
     
 jobs: 
   deploy:
@@ -9,8 +9,6 @@ jobs:
     steps:
       - name:  Checkout branch from GitHub 
         uses: actions/checkout@v2
-        
-      
       - name: Set up JDK
         uses: actions/setup-java@v2
         with:
