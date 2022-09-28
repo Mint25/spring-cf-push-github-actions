@@ -6,5 +6,5 @@ applications:
     buildpacks:
       - https://github.com/cloudfoundry/java-buildpack/releases/download/v4.42/java-buildpack-v4.42.zip
     services:
-      - elastic-apm-renewing-firefly
-      - EurekaServer-demo
+      - MyFirstNodeApp
+    
