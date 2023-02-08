@@ -42,8 +42,7 @@ jobs:
          echo "deb https://packages.cloudfoundry.org/debian stable main" | sudo tee /etc/apt/sources.list.d/cloudfoundry-cli.list
          sudo apt-get update
          sudo apt-get install cf8-cli
-         cf login -a https://api.cf.us10-001.hana.ondemand.com -u ${{ secrets.CF_LOGIN }} -p ${{ secrets.CF_PASSWORD }} -o ${{ secrets.CF_ORG }} -s ${{ secrets.CF_SPACE }}
-       
- 
+         cf login -a https://api.cf.ap21.hana.ondemand.com -u ${{ secrets.CF_LOGIN }} -p ${{ secrets.CF_PASSWORD }} -o ${{ secrets.CF_ORG }} -s ${{ secrets.CF_SPACE }}
+
          cf push -f manifest.yml
 
