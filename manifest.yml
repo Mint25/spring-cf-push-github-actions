@@ -1,6 +1,6 @@
 ---
 applications:
-  - name: SAP PE
+  - name: SAP new
     path: build/libs/gradle-demo-0.0.1-SNAPSHOT.jar
     instances: 1
     buildpacks:
